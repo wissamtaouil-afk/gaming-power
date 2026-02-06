@@ -1,0 +1,29 @@
+<!-- public/profile.html -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Profile</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="card" id="profileCard">
+    <h1>Profile</h1>
+    <div id="profile"></div>
+    <a href="/">Back</a>
+  </div>
+  <script>
+    fetch('/api/profile').then(r => {
+      if (!r.ok) { window.location = '/'; return; }
+      return r.json();
+    }).then(data => {
+      const p = document.getElementById('profile');
+      if (!data) return;
+      p.innerHTML = `<p><strong>Username:</strong> ${data.user.username}</p>
+                     <p><strong>Email:</strong> ${data.user.email}</p>
+                     <p><strong>Joined:</strong> ${data.user.created_at}</p>`;
+    }).catch(e => { console.error(e); window.location = '/'; });
+  </script>
+</body>
+</html>
